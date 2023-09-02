@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dtos/create-task.dto';
 
@@ -12,10 +21,19 @@ export class TasksController {
   }
 
   @Get()
-  findAllTask() {}
+  findAllTask() {
+    // TODO: handle sorting
+    return this.tasksService.find();
+  }
 
   @Get('/:id')
-  findTask() {}
+  async findTask(@Param('id') id: string) {
+    const task = await this.tasksService.findOne(id);
+
+    if (!task) throw new NotFoundException();
+
+    return task;
+  }
 
   @Patch('/:id')
   updateTask() {}
