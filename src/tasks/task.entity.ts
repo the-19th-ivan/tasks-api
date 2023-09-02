@@ -1,22 +1,23 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+// TODO: add allowed null values
 @Entity()
 export class Task {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
+  @Column('varchar', { length: 50 })
   name: string;
 
-  @Column()
+  @Column('varchar', { length: 100, nullable: true })
   description: string;
 
-  @Column()
+  @Column('datetime', { nullable: true })
   deadline: Date;
 
-  @Column()
-  isCompleted: boolean;
+  @Column('boolean', { default: false })
+  isCompleted: boolean = false;
 
-  @Column()
-  isStarred: boolean;
+  @Column('boolean', { default: false })
+  isStarred: boolean = false;
 }
